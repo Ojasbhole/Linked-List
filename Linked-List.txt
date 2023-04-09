@@ -1,0 +1,217 @@
+#include<stdio.h>
+#include<malloc.h>
+struct node
+{
+	int data;
+	struct node *next;
+}*head;
+
+int i;
+void createlinkedlist();
+void viewlinkedlist();
+void insertatmiddle();
+void insertatend();
+void deleteatfirst();
+int main()
+{
+	printf("\t\t\t\t\t welcome to linked list");
+	createlinkedlist();
+	insertatbeginning();
+	printf("\n the linked list after insert at beginning :");
+	viewlinkedlist();
+	
+	insertatmiddle();
+	printf("\n the linked list after inserting at middle :");
+	viewlinkedlist();
+	
+	insertatend();
+	printf("\n the linked list after inserting at end :");
+	viewlinkedlist();
+	
+	deleteatfirst();
+	printf("\n the linked list after deleting node from first :");
+	
+	viewlinkedlist();
+	deleteatend();
+	printf("\n the linked list after deleting node from end");
+	viewlinkedlist();
+	
+	deleteatmiddle();
+	printf("\n the linkedlist after deleing node from middle");
+	viewlinkedlist();
+	
+	return 0;
+}
+void createlinkedlist()
+{
+	int data,n;
+	struct node *temp,*newnode;
+	printf("\n enter how many nodes you want :");
+	scanf("%d",&n);
+	head=(struct node *)malloc(sizeof(struct node));
+	if(head==NULL)
+	{
+		printf("\n ERROR");
+	}
+	else
+	{
+	printf("\n enter the data on 1st node :");
+	scanf("%d",&data);
+	head->data=data;
+	head->next=NULL;
+	temp=head;
+	printf("\n 1st node inserted succesfully");
+	}
+	for( i=2;i<=n;i++)
+	{
+		printf("\n\n enter data on %d node :",i);
+		scanf("%d",&data);
+		newnode=(struct node *)malloc(sizeof(struct node));
+		if(newnode==NULL)
+		{
+			printf("\n ERROR");
+		}
+		else
+		{
+			newnode->data=data;
+			newnode->next=NULL;
+			temp->next=newnode;
+			temp=newnode;
+			printf("\n Node %d inserted",i);
+		}
+	}
+}
+void insertatbeginning()
+{
+	int data;
+	struct node *newnode;
+	printf("\n\n enter the data that you want insert at beginning :");
+	scanf("%d",&data);
+	newnode=(struct node *)malloc(sizeof(struct node));
+		if(newnode==NULL)
+		{
+			printf("\n ERROR");
+		}
+		else
+		{
+			newnode->data=data;
+			newnode->next=head;
+			head=newnode;
+			printf("\n\n node %d insert at beginning ", data);
+		}
+}
+void  insertatmiddle()
+{
+	int position;
+	printf("\n\n enter the position where you want to insert an element :");     
+	scanf("%d",&position);
+	if(position==1)
+	{
+		insertatbeginning();
+	}
+	else
+	{
+		int data;
+		printf("\n\n enter the data on node :");
+		scanf("%d",&data);
+		struct node *newnode,*temp;
+		newnode=(struct node *)malloc(sizeof(struct node));
+		if(newnode==NULL)
+		{
+			printf("\n ERROR");
+		}
+		else
+		{
+			newnode->data=data;	
+			temp=head;
+			for(i=1;i<=position-2;i++)      
+			{
+				temp=temp->next;
+			}
+			newnode->next=temp->next;
+			temp->next=newnode;
+		}
+	}
+}
+void insertatend()
+{
+	int data;
+	printf("\n enter the element you  want to insert at end :");
+	scanf("%d",&data);
+	struct node *newnode,*temp;
+	newnode=(struct node *)malloc(sizeof(struct node));
+	if(newnode==NULL)
+	{
+		printf("\n errror");
+	}
+	else
+	{
+		newnode->data=data;
+		newnode->next=NULL;
+		temp=head;
+		while(temp->next!=NULL)
+		{
+			temp=temp->next;
+		}
+		temp->next=newnode;
+		
+	}
+}
+void deleteatfirst()
+{
+	struct node *temp;
+	temp=head;
+	head=head->next;
+	free(temp);
+	printf("\n first node deleted");
+}
+
+void deleteatend()
+{
+	struct node *temp,*last;
+	temp=head;
+	while(temp->next!=NULL)
+	{
+		last=temp;
+		temp=temp->next;
+	}
+	last->next=NULL;
+	free(temp);
+	printf("\n delete node from last");
+}
+
+void deleteatmiddle()
+{
+	int pos;
+	printf("\n enter position of node you want to delete :");
+	scanf("%d",&pos);
+	struct node *temp,*del;
+	temp=head;
+	for(i=1;i<=pos-1;i++)
+	{
+		del=temp;
+		temp=temp->next;
+	}
+	del->next=temp->next;
+	free(temp);
+	printf("\n node deleted from middle");
+	
+}
+void 	viewlinkedlist()
+{
+	struct node *temp;
+	if(head==NULL)
+	{
+		printf("\n Linked list is empty");
+	}
+	else
+	{
+		temp=head;
+		printf("\n\n\n following are the elements of linked list : ");
+		while(temp!=0)
+		{
+			printf("%d->",temp->data);
+			temp=temp->next;
+		}
+	}
+}
